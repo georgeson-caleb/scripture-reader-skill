@@ -9,6 +9,7 @@
 #   python:
 #     - requests
 #     - gensim
+      - psycopg2
 #
 #   # Install packages with the system package manager
 #   # This searches for the provided executable and uses the package names
@@ -18,7 +19,7 @@
 #
 #     # If the package has a certain name on a different platform:
 #     pkcon: pianobar libpiano-dev  # For the mycroft platform
-#     apt-get: pianobar libpiano-dev  # For Ubuntu/Debian
+     apt-get: postgresql python3-dev libpq-dev  # For Ubuntu/Debian
 #
 #   # Require certain executables to be in the PATH for the install to succeed
 #   exes:
