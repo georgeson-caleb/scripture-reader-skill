@@ -102,9 +102,6 @@ class ScriptureReader(MycroftSkill):
         self.speak("The numbers are: {}".format(numbers))
 
 
-def create_skill():
-    return ScriptureReader()
-
 def getRandomScripture():
    # Choose a random volume (number between 1 and 5)
    # 1: Old Testament
@@ -139,3 +136,7 @@ def getRandomScripture():
    # Format the scripture string
 
    # Read the scripture out loud
+
+
+def create_skill():
+    return ScriptureReader()
