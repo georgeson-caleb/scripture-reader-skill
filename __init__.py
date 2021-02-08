@@ -97,7 +97,7 @@ class ScriptureReader(MycroftSkill):
 
     @intent_file_handler('reader.scripture.intent')
     def handle_reader_scripture(self, message):
-        numbers = utils.parse.extract_numbers(message)
+        numbers = util.parse.extract_numbers(message)
         print(numbers)
         self.speak("The numbers are: {}".format(numbers))
 
