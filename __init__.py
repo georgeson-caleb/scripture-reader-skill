@@ -1,4 +1,4 @@
-from mycroft import MycroftSkill, intent_file_handler, util
+from mycroft import MycroftSkill, intent_file_handler
 import random
 import json
 
@@ -98,9 +98,8 @@ class ScriptureReader(MycroftSkill):
 
     @intent_file_handler('reader.scripture.intent')
     def handle_reader_scripture(self, message):
-        #numbers = util.parse.extract_numbers(message.utterance)
-        #print(numbers)
-        self.speak(json.dumps(message))
+        scripture_name = message.data.book + " " + message.data.chapter + " " + message.data.verse
+        self.speak(scripture_name)
 
 
 #def getRandomScripture():
