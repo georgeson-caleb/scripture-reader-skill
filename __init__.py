@@ -1,4 +1,4 @@
-from mycroft import MycroftSkill, intent_file_handler, utils
+from mycroft import MycroftSkill, intent_file_handler, util
 import random
 
 books = [
