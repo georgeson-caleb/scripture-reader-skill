@@ -98,7 +98,7 @@ class ScriptureReader(MycroftSkill):
 
     @intent_file_handler('reader.scripture.intent')
     def handle_reader_scripture(self, message):
-        scripture_name = message.dataget('book') + " " + message.data.get('chapter') + " " + message.data.get('verse')
+        scripture_name = message.data.get('book') + " " + message.data.get('chapter') + " " + message.data.get('verse')
         self.speak(scripture_name)
 
 
