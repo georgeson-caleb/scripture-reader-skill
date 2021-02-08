@@ -100,7 +100,7 @@ class ScriptureReader(MycroftSkill):
     def handle_reader_scripture(self, message):
         #numbers = util.parse.extract_numbers(message.utterance)
         #print(numbers)
-        self.speak(json.dump(message))
+        self.speak(json.dumps(message))
 
 
 #def getRandomScripture():
