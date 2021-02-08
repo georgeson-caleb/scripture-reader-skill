@@ -1,1 +1,2 @@
-Read a scripture {book} {chapter} {verse}
+Read a scripture {book}, {chapter}, {verse}
+Read me a scripture {book} chapter {chapter} verse {verse}

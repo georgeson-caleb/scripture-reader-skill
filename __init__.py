@@ -1,6 +1,7 @@
 from mycroft import MycroftSkill, intent_file_handler
 import random
 import requests
+import json
 
 books = [
  "Genesis",
@@ -99,12 +100,14 @@ class ScriptureReader(MycroftSkill):
     @intent_file_handler('reader.scripture.intent')
     def handle_reader_scripture(self, message):
         scripture_name = message.data.get('book') + " " + message.data.get('chapter') + ":" + message.data.get('verse')
-       
-        r = requests.get('http://api.nephi.org/scriptures/?q={}'.format(scripture_name)
-                         
-        print(r)
-       
-        self.speak(scripture_name)
+
+        r = requests.get('http://api.nephi.org/scriptures/?q={}'.format(scripture_name))
+        result = json.loads(r.text)
+        
+        text = result.get('scriptures')[0].get('text')
+
+
+        self.speak(text)
 
 
 #def getRandomScripture():
