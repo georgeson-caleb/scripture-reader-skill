@@ -106,6 +106,8 @@ class ScriptureReader(MycroftSkill):
         book = book.replace(" nd ", "")
         book = book.replace(" rd ", "")
         book = book.replace(" th ", "")
+        book = book.replace("Psalm"," Psalms")
+        book = book.replace("Psalm "," Psalms")
 
         return book
     
