@@ -97,17 +97,57 @@ class ScriptureReader(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
 
+    def formatBookName(self, book):
+        book = book.replace(" st", "")
+        book = book.replace("st", "")
+        book = book.replace("nd", "")
+        book = book.replace("rd", "")
+        book = book.replace("th", "")
+        book = book.replace(" nd", "")
+        book = book.replace(" rd", "")
+        book = book.replace(" th", "")
+
+        return book
+
     @intent_file_handler('reader.scripture.intent')
     def handle_reader_scripture(self, message):
-        scripture_name = message.data.get('book') + " " + message.data.get('chapter') + ":" + message.data.get('verse')
+        print(message.data.get('book'))
+
+        book = self.formatBookName(message.data.get('book') + "")
+
+        self.speak(message.data.get('book') + " chapter " + message.data.get('chapter') + " verse " + message.data.get('verse') + " says " )
+        scripture_name = book + " " + message.data.get('chapter') + ":" + message.data.get('verse')
 
         r = requests.get('http://api.nephi.org/scriptures/?q={}'.format(scripture_name))
         result = json.loads(r.text)
         
-        text = result.get('scriptures')[0].get('text')
-
+        text = result['scriptures'][0]['text']
 
         self.speak(text)
+
+    @intent_file_handler('reader.chapter.intent')
+    def handle_reader_chapter(self, message):
+        print(message.data.get('book'))
+        book = self.formatBookName(message.data.get('book'))
+        chapter = message.data.get('chapter')
+
+        self.speak("Reading {} chapter {}".format(book, chapter))
+
+        canLoadMore = True
+        
+        i = 1
+        while (canLoadMore):
+           chapter_name = book + " " + chapter + ":" + str(i)
+           r = requests.get('http://api.nephi.org/scriptures/?q={}'.format(chapter_name))
+           result = json.loads(r.text)
+
+           if len(result['scriptures']) == 0:
+              canLoadMore = False
+           else:
+              self.speak(result['scriptures'][0]['text'])
+            
+           i += 1
+
 
 
 #def getRandomScripture():
