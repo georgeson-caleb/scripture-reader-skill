@@ -98,30 +98,48 @@ class ScriptureReader(MycroftSkill):
         MycroftSkill.__init__(self)
 
     def formatBookName(self, book):
-        book = book.replace(" st", "")
-        book = book.replace("st", "")
-        book = book.replace("nd", "")
-        book = book.replace("rd", "")
-        book = book.replace("th", "")
-        book = book.replace(" nd", "")
-        book = book.replace(" rd", "")
-        book = book.replace(" th", "")
+        book = book.replace(" st ", "")
+        book = book.replace("st ", "")
+        book = book.replace("nd ", "")
+        book = book.replace("rd ", "")
+        book = book.replace("th ", "")
+        book = book.replace(" nd ", "")
+        book = book.replace(" rd ", "")
+        book = book.replace(" th ", "")
 
         return book
+    
+    def readScriptureJsonFile(self):
+        filename = "/home/pi/mycroft-core/skills/scripture-reader-skill.georgeson-caleb/lds-scriptures-json.txt"
+        f = open(filename)
+
+        scriptures = json.loads(f.read())
+
+        return scriptures
 
     @intent_file_handler('reader.scripture.intent')
     def handle_reader_scripture(self, message):
         print(message.data.get('book'))
 
         book = self.formatBookName(message.data.get('book') + "")
+        chapter = message.data.get('chapter')
+        verse = message.data.get('verse')
+
+        scriptures = self.readScriptureJsonFile()
 
         self.speak(message.data.get('book') + " chapter " + message.data.get('chapter') + " verse " + message.data.get('verse') + " says " )
         scripture_name = book + " " + message.data.get('chapter') + ":" + message.data.get('verse')
 
-        r = requests.get('http://api.nephi.org/scriptures/?q={}'.format(scripture_name))
-        result = json.loads(r.text)
+        text = ""
+
+        for s in scriptures:
+           if s['verse_title'].lower() == book + " " + chapter + ":" + verse:
+              text = s['scripture_text']
+              break
+        #r = requests.get('http://api.nephi.org/scriptures/?q={}'.format(scripture_name))
+        #result = json.loads(r.text)
         
-        text = result['scriptures'][0]['text']
+        #text = result['scriptures'][0]['text']
 
         self.speak(text)
 
@@ -148,8 +166,6 @@ class ScriptureReader(MycroftSkill):
             
            i += 1
 
-
-
 #def getRandomScripture():
    # Choose a random volume (number between 1 and 5)
    # 1: Old Testament
@@ -158,6 +174,10 @@ class ScriptureReader(MycroftSkill):
    # 4: D&C
    # 5: Pearl of Great Price
 #   volume = random.randint(1, 5)
+
+   #random = random.randint(0, len(scriptures) - 1)
+
+   #scriptures[random]["scripture_text"]
 
    # Choose a random book
    #   - Get the number of books in the volume (Using the COUNT() query)
